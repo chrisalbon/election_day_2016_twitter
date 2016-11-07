@@ -13,7 +13,7 @@ class StdOutListener(StreamListener):
 
     def __init__(self, api = None):
         self.api = api
-        self.filename = sys.argv[1]+'_'+time.strftime('%Y%m%d-%H%M%S')+'.csv'
+        self.filename = sys.argv[2]+'_'+time.strftime('%Y%m%d-%H%M%S')+'.csv'
         csvFile = open(self.filename, 'w')
 
     def on_status(self, status):
@@ -91,10 +91,10 @@ def start_mining():
         credentials = json.load(creds)
 
     #Variables that contains the user credentials to access Twitter API
-    consumer_key = credentials['twitter']['cra_twitter_miner_5']['consumer_key']
-    consumer_secret = credentials['twitter']['cra_twitter_miner_5']['consumer_secret']
-    access_token = credentials['twitter']['cra_twitter_miner_5']['access_token']
-    access_token_secret = credentials['twitter']['cra_twitter_miner_5']['access_secret']
+    consumer_key = credentials['twitter'][sys.argv[1]]['consumer_key']
+    consumer_secret = credentials['twitter'][sys.argv[1]]['consumer_secret']
+    access_token = credentials['twitter'][sys.argv[1]]['access_token']
+    access_token_secret = credentials['twitter'][sys.argv[1]]['access_secret']
 
     l = StdOutListener()
     auth = OAuthHandler(consumer_key, consumer_secret)
@@ -103,7 +103,7 @@ def start_mining():
 
     while True:
         try:
-            stream.filter(track=sys.argv[2:])
+            stream.filter(track=sys.argv[3:])
         except:
             continue
 if __name__ == '__main__':
