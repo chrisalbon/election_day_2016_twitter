@@ -8,7 +8,7 @@ To convert the list of tweet IDs into a full dataset, run retrieve_tweets.ipynb 
 
 0. python miner.py cra_twitter_miner_0 'full_data/hillary' hillary
 1. python miner.py cra_twitter_miner_1 'full_data/trump' trump
-2. python miner.py cra_twitter_miner_2 'full_data/yourfired' \#yourfired
+2. python miner.py cra_twitter_miner_2 'full_data/yourefired' \#yourefired
 3. python miner.py cra_twitter_miner_3 'full_data/election' election
 4. python miner.py cra_twitter_miner_4 'full_data/election2016' \#election2016
 5. python miner.py cra_twitter_miner_5 'full_data/electionday' \#electionday
