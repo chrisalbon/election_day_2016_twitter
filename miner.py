@@ -15,10 +15,44 @@ class StdOutListener(StreamListener):
         self.api = api
         self.filename = sys.argv[2]+'_'+time.strftime('%Y%m%d-%H%M%S')+'.csv'
         csvFile = open(self.filename, 'w')
+        csvWriter = csv.writer(csvFile)
+        csvWriter.writerow(['text',
+                            'created_at',
+                            'geo',
+                            'lang',
+                            'place',
+                            'coordinates',
+                            'user.favourites_count',
+                            'user.statuses_count',
+                            'user.description',
+                            'user.location',
+                            'user.id',
+                            'user.created_at',
+                            'user.verified',
+                            'user.following',
+                            'user.url',
+                            'user.listed_count',
+                            'user.followers_count',
+                            'user.default_profile_image',
+                            'user.utc_offset',
+                            'user.friends_count',
+                            'user.default_profile',
+                            'user.name',
+                            'user.lang',
+                            'user.screen_name',
+                            'user.geo_enabled',
+                            'user.profile_background_color',
+                            'user.profile_image_url',
+                            'user.time_zone',
+                            'id',
+                            'favorite_count',
+                            'retweeted',
+                            'source',
+                            'favorited',
+                            'retweet_count'])
 
     def on_status(self, status):
         csvFile = open(self.filename, 'a')
-
         csvWriter = csv.writer(csvFile)
 
         if not 'RT @' in status.text:
@@ -62,35 +96,31 @@ class StdOutListener(StreamListener):
                 pass
 
         csvFile.close()
-
         return
 
     def on_error(self, status_code):
         print('Encountered error with status code:', status_code)
-        return True
+        if status_code == 401:
+            return False
 
     def on_delete(self, status_id, user_id):
-        """Called when a delete notice arrives for a status"""
         print("Delete notice")
-        return True
+        return
 
     def on_limit(self, track):
-        # If too many posts match our filter criteria and only a subset is sent to us
-        print("!!! Limitation notice received")
+        print("Rate limited, continuing")
         return True
 
     def on_timeout(self):
         print(sys.stderr, 'Timeout...')
         time.sleep(10)
-        return True
+        return
 
 def start_mining():
 
-    # Import API Keys
     with open('credentials.json') as creds:
         credentials = json.load(creds)
 
-    #Variables that contains the user credentials to access Twitter API
     consumer_key = credentials['twitter'][sys.argv[1]]['consumer_key']
     consumer_secret = credentials['twitter'][sys.argv[1]]['consumer_secret']
     access_token = credentials['twitter'][sys.argv[1]]['access_token']
