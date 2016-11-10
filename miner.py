@@ -108,7 +108,7 @@ class StdOutListener(StreamListener):
         return
 
     def on_limit(self, track):
-        print("Rate limited, continuing")
+        print(time.strftime('%H:%M:%S'), "Rate limited, continuing")
         return True
 
     def on_timeout(self):
